@@ -2,18 +2,13 @@
 /*TODO: remove thread.sleep*/
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.JavascriptExecutor;
 
-import com.google.common.base.Predicate;
 
 public class SearchKT {
 
@@ -39,7 +34,7 @@ public class SearchKT {
 		for (WebElement url : this.linkURLs) {
 			url.sendKeys(OpeninNewTab);
 		}
-		Thread.sleep(3500);
+		Thread.sleep(2000);
 	}
 
 	private void closeUselessTabs() throws InterruptedException {
@@ -59,10 +54,9 @@ public class SearchKT {
 	}
 
 	private void nextSearchPage() {
-		while (true) {
-			this.driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL, Keys.PAGE_DOWN);
-			if (this.driver.getTitle().contains("- Google Search"))
-				break;
+		this.driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL, Keys.PAGE_DOWN);
+		while (!this.driver.getTitle().contains("- Google Search")) {
+			this.driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "w");
 		}
 		this.driver.findElement(By.xpath(".//*[@id='pnnext']/span[2]")).click();
 	}
